@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { CryptoLibrary} from 'src/app/common'
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,11 @@ export class AuthenticationService {
   constructor(private http: HttpClient) { }
 
   inLogin(data: any): Observable<any> {
+    const crypto = new CryptoLibrary()
+    data = {
+      email: crypto.encrypt(data.email),
+      password: crypto.encrypt(data.password)
+    }
     return this.http.post(`${this._urlServer}auth/login`, data)
   }
 

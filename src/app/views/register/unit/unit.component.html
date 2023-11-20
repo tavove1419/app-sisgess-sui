@@ -23,13 +23,13 @@
             <c-form-feedback [valid]="false">Por favor ingresar informacion.</c-form-feedback>
           </c-col>
           <c-col xs="12">
-            <button cButton class="me-1" color="primary" type="submit" *ngIf="!flatEdit">
+            <button cButton class="me-1" color="dark" type="submit" *ngIf="!flatEdit">
               Guardar
             </button>
-            <button cButton class="me-1" color="primary" type="button" (click)="onUpdateUnit()" *ngIf="flatEdit">
+            <button cButton class="me-1" color="dark" type="button" (click)="onUpdateUnit()" *ngIf="flatEdit">
               Actualizar
             </button>
-            <button (click)="onReset()" cButton color="danger">
+            <button type="button" class="btn btn-danger text-white" (click)="onReset()">
               Cancelar
             </button>
           </c-col>
@@ -60,7 +60,7 @@
                 <td> {{unit.floor_number}} </td>
                 <td> {{unit.unit_number}} </td>
                 <td class="text-center">
-                    <button cButton class="me-1" color="primary" (click)="searchByPiso(unit)">
+                    <button cButton class="me-1" color="dark" (click)="searchByPiso(unit)">
                       <svg [cIcon]="icons.cilPlaylistAdd" width="25" title="Shield Icon"></svg>
                     </button>
                     <button *ngIf="rol !== 'Encuestador'" cButton class="me-1" color="warning" (click)="editUnit(unit)">
@@ -242,7 +242,7 @@
     </form>
   </c-modal-body>
   <c-modal-footer>
-    <button cButton color="secondary" (click)="closeModal()">Cancelar</button>
-    <button cButton color="primary" (click)="saveInfoSui()">Guardar</button>
+    <button cButton color="dark" (click)="saveInfoSui()">Guardar</button>
+    <button cButton color="danger" class="text-white" (click)="closeModal()">Cancelar</button>
   </c-modal-footer>
 </c-modal>

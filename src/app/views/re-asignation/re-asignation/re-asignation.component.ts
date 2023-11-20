@@ -112,7 +112,7 @@ export class ReAsignationComponent implements OnInit {
     this._asignationService.updateAsignation(update).subscribe((response) => {
       if (response) {
         Swal.fire({
-          title: 'Información incompleta',
+          title: 'Reasignación',
           text: `${response.message}`,
           icon: 'success'
         })

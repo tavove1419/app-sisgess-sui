@@ -48,11 +48,12 @@ export class TypologyComponent implements OnInit {
       this._typologyService.createTypology(data).subscribe((response) => {
         if (response.data) {
           Swal.fire({
-            title: 'Creación Barrio',
-            text: 'Registro barrio creado correctamente',
+            title: 'Creación Tipología',
+            text: 'Registro tipología creado correctamente',
             icon: 'success'
           })
           this.isloading = false
+          this.flatEdit = false
           this.formTypology.reset()
           this.getAllTypology()
         }
@@ -76,11 +77,12 @@ export class TypologyComponent implements OnInit {
       this._typologyService.updateTypology(data).subscribe((response) => {
         if (response.data) {
           Swal.fire({
-            title: 'Actualización Empresa',
-            text: 'Registro barrio actualizado correctamente',
+            title: 'Actualización Tipología',
+            text: 'Registro tipología actualizado correctamente',
             icon: 'success'
           })
           this.isloading = false
+          this.flatEdit = false
           this.formTypology.reset()
           this.getAllTypology()
         }

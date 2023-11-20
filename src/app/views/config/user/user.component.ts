@@ -4,6 +4,7 @@ import Swal from 'sweetalert2'
 import {NgbPaginationConfig} from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from './services/user.service';
 import { UserInterface } from './interfaces/user.interface';
+import { cilPencil } from '@coreui/icons';
 
 @Component({
   selector: 'app-user',
@@ -13,6 +14,7 @@ import { UserInterface } from './interfaces/user.interface';
 export class UserComponent implements OnInit {
 
   public filterUser = ''
+  icons = { cilPencil };
   public page: number = 1
   public flatEdit: boolean = false
   public isloading: boolean = false
@@ -62,6 +64,7 @@ export class UserComponent implements OnInit {
             icon: 'success'
           })
           this.isloading = false
+          this.flatEdit = false
           this.formUser.reset()
           this.allUser()
         }
@@ -83,7 +86,6 @@ export class UserComponent implements OnInit {
       this.isloading = true
       const data = this.formUser.value
       data.password = data.usuario
-      debugger
       this._serviceUser.updateUser(data).subscribe((response) => {
         if (response.data) {
           Swal.fire({
@@ -92,6 +94,7 @@ export class UserComponent implements OnInit {
             icon: 'success'
           })
           this.isloading = false
+          this.flatEdit = false
           this.formUser.reset()
           this.allUser()
         }

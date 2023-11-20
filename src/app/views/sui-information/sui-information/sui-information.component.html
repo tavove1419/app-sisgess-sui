@@ -36,12 +36,12 @@
               <td>{{information.codeBarrio}}</td>
               <td>{{information.number_piso}}</td>
               <td class="text-center">
-                <button cButton class="me-1" color="info" (click)="showInfo(information)">
+                <button cButton class="me-1" color="dark" (click)="showInfo(information)">
                   <svg [cIcon]="icons.cilBook" width="20" title="Shield Icon"></svg>
                 </button>
               </td>
               <td class="text-center">
-                <button cButton class="me-1" color="danger" (click)="confirmDelete(information)">
+                <button cButton class="me-1" color="danger" class="text-white" (click)="confirmDelete(information)">
                   <svg [cIcon]="icons.cilTrash" width="20" title="Shield Icon"></svg>
                 </button>
               </td>

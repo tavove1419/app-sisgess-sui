@@ -7,7 +7,7 @@
           <c-card class="p-4">
             <c-card-body>
               <form cForm [formGroup]="formLogin">
-                <h1>Login</h1>
+                <h1>Inicio de sesión</h1>
                 <p class="text-medium-emphasis">Iniciar sesión en su cuenta</p>
                 <c-input-group class="mb-3" >
                   <span cInputGroupText>
@@ -29,18 +29,19 @@
                 </c-input-group>
                 <c-row>
                   <c-col xs="6">
-                    <button cButton class="px-4" color="primary" (click)="login()">
-                      Login
+                    <button cButton class="px-4" color="dark" (click)="login()">
+                      Ingresar
                     </button>
                   </c-col>
                 </c-row>
               </form>
             </c-card-body>
           </c-card>
-          <c-card [ngStyle]="{'width.%': 44}" class="text-white bg-primary py-5">
+          <c-card [ngStyle]="{'width.%': 100}" class="text-white bg-secondary py-5">
             <c-card-body class="text-center">
               <div>
                 <h2>SISGESS</h2>
+                <img class="sizeImg" src="assets/img/brand/coreui-signet-white.svg" />
               </div>
             </c-card-body>
           </c-card>

@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   //sigessApi: 'http://localhost:4000/',
   sigessApi: 'http://192.241.137.195:4000/',
-  keyCrypto: 'sigessApi'
+  keyCrypto:'pD9a96boUT18PwaDdzIDqgMi6ojWgEro6PGTP09F5Dxp1zyxqE1ZgGnAWBXmc8ae'
 };
 
 /*

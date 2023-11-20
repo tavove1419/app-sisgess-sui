@@ -6,6 +6,7 @@ import { BadgeModule, ButtonGroupModule, ButtonModule, CardModule, FormModule, G
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FilterPipe } from 'src/app/common/pipes/filter.pipe';
 import {NgxPaginationModule} from 'ngx-pagination'
+import { IconModule } from '@coreui/icons-angular';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import {NgxPaginationModule} from 'ngx-pagination'
     ButtonModule,
     TableModule,
     ModalModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    IconModule
   ],
   providers: []
 })

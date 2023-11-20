@@ -24,8 +24,8 @@
               <option *ngFor="let barrio of listBarrio" [value]="barrio.cod_bar">{{barrio.name_bar}}</option>
             </select>
           </c-col>
-          <c-col md="2" class="btn-search">
-            <button cButton class="me-1" color="primary" type="submit">
+          <c-col md="2" class="btn-search mt-5">
+            <button cButton class="me-1" color="dark" type="submit">
               Buscar
             </button>
           </c-col>
@@ -51,7 +51,7 @@
         </c-col>
       </form>
       <c-col md="12" class="mt-2 aling-btn" >
-        <button cButton class="me-1" color="primary" (click)="onAsignation()">
+        <button cButton class="me-1" color="dark" (click)="onAsignation()">
           Asignar
         </button>
       </c-col>

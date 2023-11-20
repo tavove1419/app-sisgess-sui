@@ -42,13 +42,13 @@
             <c-form-feedback [valid]="false">Por favor ingresar informacion.</c-form-feedback>
           </c-col>
           <c-col xs="12">
-            <button cButton class="me-1" color="primary" type="submit" *ngIf="!flatEdit">
+            <button cButton class="me-1" color="dark" type="submit" *ngIf="!flatEdit">
               Guardar
             </button>
-            <button cButton class="me-1" color="primary" type="button" (click)="updateUser()" *ngIf="flatEdit">
+            <button cButton class="me-1" color="dark" type="button" (click)="updateUser()" *ngIf="flatEdit">
               Actualizar
             </button>
-            <button (click)="onReset()" cButton color="danger" type="reset">
+            <button type="button" class="btn btn-danger text-white" (click)="onReset()">
               Cancelar
             </button>
           </c-col>
@@ -90,8 +90,8 @@
                 <td>{{user.rol}}</td>
                 <td>
                   <div>
-                    <button cButton class="me-1" color="success" (click)="editUser(user)">
-                      Editar
+                    <button cButton class="me-1" color="dark" (click)="editUser(user)">
+                      <svg [cIcon]="icons.cilPencil" width="20" title="Shield Icon"></svg>
                     </button>
                   </div>
                 </td>

@@ -11,7 +11,7 @@ export class BreadcrumbsComponent implements OnInit {
 
   ngOnInit(): void {
     this.items = [
-      { label: 'Home', url: '/', attributes: { title: 'Home' } },
+      { label: 'Home', url: '/dashboard', attributes: { title: 'Home' } },
       { label: 'Library', url: '/' },
       { label: 'Data', url: '/dashboard/' },
       { label: 'CoreUI', url: '/' }
@@ -22,7 +22,7 @@ export class BreadcrumbsComponent implements OnInit {
         { label: 'CoreUI', url: '/' },
         { label: 'Data', url: '/dashboard/' },
         { label: 'Library', url: '/' },
-        { label: 'Home', url: '/', attributes: { title: 'Home' } }
+        { label: 'Home', url: '/dashboard', attributes: { title: 'Home' } }
       ];
     }, 5000);
   }

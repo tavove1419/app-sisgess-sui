@@ -20,8 +20,8 @@
               <option *ngFor="let barrio of listBarrio" [value]="barrio.cod_bar">{{barrio.name_bar}}</option>
             </select>
           </c-col>
-          <c-col md="2" class="btn-search">
-            <button cButton class="me-1" color="primary" type="submit">
+          <c-col md="2" class="btn-search mt-5">
+            <button cButton class="me-1" color="dark" type="submit">
               Buscar
             </button>
           </c-col>
@@ -67,7 +67,7 @@
               <td>{{asignation.user_name}}</td>
               <td>
                 <div>
-                  <button cButton class="me-1" color="primary" (click)="confirmAsignation(asignation)">
+                  <button cButton class="me-1" color="dark" (click)="confirmAsignation(asignation)">
                     <svg [cIcon]="icons.cilBrush" width="25" title="Shield Icon"></svg>
                   </button>
                 </div>

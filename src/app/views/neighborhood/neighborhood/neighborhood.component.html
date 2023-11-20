@@ -31,13 +31,13 @@
             <c-form-feedback [valid]="false">Por favor ingresar informacion.</c-form-feedback>
           </c-col>
           <c-col xs="12">
-            <button cButton class="me-1" color="primary" type="submit" *ngIf="!flatEdit">
+            <button cButton class="me-1" color="dark" type="submit" *ngIf="!flatEdit">
               Guardar
             </button>
-            <button cButton class="me-1" color="primary" type="button" (click)="updateNeighborhood()" *ngIf="flatEdit">
+            <button cButton class="me-1" color="dark" type="button" (click)="updateNeighborhood()" *ngIf="flatEdit">
               Actualizar
             </button>
-            <button (click)="onReset()" cButton color="danger" type="reset">
+            <button type="button" class="btn btn-danger text-white" (click)="onReset()">
               Cancelar
             </button>
           </c-col>
@@ -76,7 +76,7 @@
                 <td>{{neighborhood.cod_bar}}</td>
                 <td>{{neighborhood.name_bar}}</td>
                 <td class="text-center">
-                  <button cButton class="me-1" color="success" (click)="editNeighborhood(neighborhood)">
+                  <button cButton class="me-1" color="dark" (click)="editNeighborhood(neighborhood)">
                     <svg [cIcon]="icons.cilPencil" width="20" title="Shield Icon"></svg>
                   </button>
                 </td>

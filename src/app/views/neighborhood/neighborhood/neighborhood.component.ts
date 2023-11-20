@@ -96,11 +96,12 @@ export class NeighborhoodComponent implements OnInit {
       this._neighborhoodService.updateNeighborhood(data).subscribe((response) => {
         if (response.data) {
           Swal.fire({
-            title: 'Actualización Empresa',
+            title: 'Actualización Barrio',
             text: 'Registro barrio actualizado correctamente',
-            icon: 'success'
+            icon: 'success',
           })
           this.isloading = false
+          this.flatEdit = false
           this.formNeighborhood.reset()
           this.getAllNeighborhood()
         }

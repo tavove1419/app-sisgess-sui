@@ -68,6 +68,7 @@ export class CompanyComponent implements OnInit {
             icon: 'success'
           })
           this.isloading = false
+          this.flatEdit = false
           this.formCompany.reset()
           this.getAllCompany()
         }
@@ -96,6 +97,7 @@ export class CompanyComponent implements OnInit {
             icon: 'success'
           })
           this.isloading = false
+          this.flatEdit = false
           this.formCompany.reset()
           this.getAllCompany()
         }

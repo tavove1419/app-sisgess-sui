@@ -66,13 +66,13 @@
             <c-form-feedback [valid]="false">Por favor ingresar informacion.</c-form-feedback>
           </c-col>
           <c-col xs="12">
-            <button cButton class="me-1" color="primary" type="submit" *ngIf="!flatEdit">
+            <button cButton class="me-1" color="dark" type="submit" *ngIf="!flatEdit">
               Guardar
             </button>
-            <button cButton class="me-1" color="primary" type="button" (click)="updatePredial()" *ngIf="flatEdit">
+            <button cButton class="me-1" color="dark" type="button" (click)="updatePredial()" *ngIf="flatEdit">
               Actualizar
             </button>
-            <button (click)="onReset()" cButton color="danger" type="reset">
+            <button type="button" class="btn btn-danger text-white" (click)="onReset()">
               Cancelar
             </button>
           </c-col>
@@ -143,11 +143,11 @@
                 <td>{{predial.predio}}</td>
                 <td>
                   <div>
-                    <button cButton class="me-1" color="success" (click)="editPredial(predial)">
-                      Editar
+                    <button cButton class="me-1" color="dark" (click)="editPredial(predial)">
+                      <svg [cIcon]="icons.cilPencil" width="20" title="Shield Icon"></svg>
                     </button>
-                    <button cButton class="me-1" color="primary" (click)="openModal(predial)">
-                      Info
+                    <button cButton class="me-1" color="secondary" (click)="openModal(predial)">
+                      <svg [cIcon]="icons.cilInfo" width="20" title="Shield Icon"></svg>
                     </button>
                   </div>
                 </td>

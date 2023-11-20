@@ -19,7 +19,7 @@ export class LoginComponent {
   public longitude = ''
 
   constructor(private fb: FormBuilder, private _authenticationService: AuthenticationService, private router: Router) {
-    this.getLocation()
+    //this.getLocation()
   }
 
   public getLocation(): void {

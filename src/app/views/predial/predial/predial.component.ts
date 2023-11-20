@@ -6,6 +6,7 @@ import { PredialService } from '../services/predial.service';
 import {NgbPaginationConfig} from '@ng-bootstrap/ng-bootstrap';
 import * as XLSX from 'xlsx';
 import { FileSaverService } from 'ngx-filesaver'
+import { cilPencil, cilInfo, cilBook } from '@coreui/icons';
 
 @Component({
   selector: 'app-predial',
@@ -15,6 +16,7 @@ import { FileSaverService } from 'ngx-filesaver'
 })
 export class PredialComponent implements OnInit {
 
+  icons = { cilPencil, cilInfo, cilBook };
   public filterPredial = ''
   public dataExcel: string = ''
   public page: number = 1
@@ -110,6 +112,7 @@ export class PredialComponent implements OnInit {
             icon: 'success'
           })
           this.isloading = false
+          this.flatEdit = false
           this.formPredial.reset()
           this.allPredial()
         }
