@@ -1,0 +1,248 @@
+<c-row>
+  <c-col xs="12">
+    <c-card class="mb-4">
+      <c-card-header>
+        <strong>REGISTRO UNIDADES - PISO</strong>
+      </c-card-header>
+      <c-card-body>
+        <form #customStylesForm="ngForm" [formGroup]="formUnit" (ngSubmit)="onSubmit()" [validated]="customStylesValidated" cForm
+          class="row g-3 needs-validation">
+          <c-col md="6">
+            <label cLabel for="validationCustom02">NPN Predial Catastro</label>
+            <input formControlName="predial" readonly cFormControl id="validationCustom02" required type="text"/>
+            <c-form-feedback [valid]="false">Por favor ingresar informacion.</c-form-feedback>
+          </c-col>
+          <c-col md="3">
+            <label cLabel for="validationCustom02">Número del Piso</label>
+            <input formControlName="floor_number" cFormControl id="validationCustom02" required type="text"/>
+            <c-form-feedback [valid]="false">Por favor ingresar informacion.</c-form-feedback>
+          </c-col>
+          <c-col md="3">
+            <label cLabel for="validationCustom03">Número de Contadores - Piso</label>
+            <input formControlName="unit_number" cFormControl id="validationCustom03" required type="text" />
+            <c-form-feedback [valid]="false">Por favor ingresar informacion.</c-form-feedback>
+          </c-col>
+          <c-col xs="12">
+            <button cButton class="me-1" color="primary" type="submit" *ngIf="!flatEdit">
+              Guardar
+            </button>
+            <button cButton class="me-1" color="primary" type="button" (click)="onUpdateUnit()" *ngIf="flatEdit">
+              Actualizar
+            </button>
+            <button (click)="onReset()" cButton color="danger">
+              Cancelar
+            </button>
+          </c-col>
+        </form>
+      </c-card-body>
+    </c-card>
+  </c-col>
+
+  <c-col xs="12">
+    <c-card class="mb-4">
+      <c-card-header ngPreserveWhitespaces>
+        <strong>REGISTRO CANTIDAD CONTADORES</strong>
+      </c-card-header>
+      <c-card-body>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th> NPN Predial </th>
+                <th> Piso </th>
+                <th> Contadores </th>
+                <th class="text-center"> Opciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let unit of listUnit | paginate: { itemsPerPage: 10, currentPage: page }">
+                <td> {{unit.predial}} </td>
+                <td> {{unit.floor_number}} </td>
+                <td> {{unit.unit_number}} </td>
+                <td class="text-center">
+                    <button cButton class="me-1" color="primary" (click)="searchByPiso(unit)">
+                      <svg [cIcon]="icons.cilPlaylistAdd" width="25" title="Shield Icon"></svg>
+                    </button>
+                    <button *ngIf="rol !== 'Encuestador'" cButton class="me-1" color="warning" (click)="editUnit(unit)">
+                      <svg [cIcon]="icons.cilBrush" width="25" title="Shield Icon"></svg>
+                    </button>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+                <pagination-controls [responsive]="true" (pageChange)="page = $event" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
+            </tfoot>
+          </table>
+        </div>
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>
+
+<!--MODAL REGISTRO DE SUI-->
+<c-modal id="liveDemoModal" size="xl" alignment="center" [visible]="isModal" [backdrop]="true" [keyboard]="true" (visibleChange)="handleLiveDemoChange($event)">
+  <c-modal-header>
+    <h5 cModalTitle>Registro SUI</h5>
+    <button (click)="closeModal()" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <form #customStylesForm="ngForm" [validated]="customStylesValidated" [formGroup]="formRegisterSui" (ngSubmit)="saveInfoSui()" cForm class="row g-3 needs-validation">
+      <!-- DATOS PREDIALES -->
+      <c-col md="2">
+        <label cLabel for="validationCustom01">Barrio</label>
+        <input formControlName="codeBarrio" readonly cFormControl id="validationCustom01" required type="text" />
+        <c-form-feedback [valid]="false">Por favor ingresar informacion.</c-form-feedback>
+      </c-col>
+      <c-col md="4">
+        <label cLabel for="validationCustom01">Predial</label>
+        <input formControlName="predial" readonly cFormControl id="validationCustom01" required type="text" />
+        <c-form-feedback [valid]="false">Por favor ingresar informacion.</c-form-feedback>
+      </c-col>
+      <c-col md="4">
+        <label cLabel for="validationCustom01">Dirección</label>
+        <input formControlName="address" readonly cFormControl id="validationCustom01" required type="text" />
+        <c-form-feedback [valid]="false">Por favor ingresar informacion.</c-form-feedback>
+      </c-col>
+      <c-col md="2">
+        <label cLabel for="validationCustom01">Tipologia</label>
+        <select aria-label="Default select example" formControlName="codeTypology" cSelect>
+          <option *ngFor="let tipology of listTipology" [value]="tipology.code">{{tipology.name}}</option>
+        </select>
+      </c-col>
+      <!-- SERVICIO ENERGIA -->
+      <c-col md="4">
+        <label cLabel for="validationCustom01">Cuenta con Energía?</label>
+        <select aria-label="Default select example" formControlName="energyService" (change)="changeOpcionEner($event.target)" cSelect>
+          <option value="Si">Si</option>
+          <option value="No">No</option>
+        </select>
+      </c-col>
+      <c-col md="4" *ngIf="flatOpcionEner">
+        <label cLabel for="validationCustom01"># NUIS Energía</label>
+        <input formControlName="energyMeter" cFormControl id="validationCustom01" required type="text" />
+        <c-form-feedback [valid]="false">Por favor ingresar informacion.</c-form-feedback>
+      </c-col>
+      <c-col md="4" *ngIf="!flatOpcionEner">
+        <label cLabel for="validationCustom01">Solución Energia</label>
+        <select aria-label="Default select example" formControlName="energyMeter" cSelect>
+          <option *ngFor="let opcionEner of listOptionEner" [value]="opcionEner.code">{{opcionEner.name}}</option>
+        </select>
+        <c-form-feedback [valid]="false">Por favor ingresar informacion.</c-form-feedback>
+      </c-col>
+      <c-col md="4">
+        <label cLabel for="validationCustom01">Proveedor de Energía</label>
+        <select aria-label="Default select example" formControlName="energyServiceProvider" cSelect>
+          <option *ngFor="let company of listCompany" [value]="company.nit">{{company.name}}</option>
+        </select>
+      </c-col>
+      <!-- SERVICIO ACUEDUCTO -->
+      <c-col md="4">
+        <label cLabel for="validationCustom01">Cuenta con Acueducto?</label>
+        <select aria-label="Default select example" formControlName="aqueductService" cSelect (change)="changeOpcionAcue($event.target)">
+          <option value="Si">Si</option>
+          <option value="No">No</option>
+        </select>
+      </c-col>
+      <c-col md="4" *ngIf="flatOpcionAcue">
+        <label cLabel for="validationCustom01"># NUIS Acueducto</label>
+        <input formControlName="aqueductMeter" cFormControl id="validationCustom01" required type="text" />
+        <c-form-feedback [valid]="false">Por favor ingresar informacion.</c-form-feedback>
+      </c-col>
+      <c-col md="4" *ngIf="!flatOpcionAcue">
+        <label cLabel for="validationCustom01">Solución Acueducto</label>
+        <select aria-label="Default select example" formControlName="aqueductMeter" cSelect>
+          <option *ngFor="let opcionAcue of listOptionAcue" [value]="opcionAcue.code">{{opcionAcue.name}}</option>
+        </select>
+        <c-form-feedback [valid]="false">Por favor ingresar informacion.</c-form-feedback>
+      </c-col>
+      <c-col md="4">
+        <label cLabel for="validationCustom01">Proveedor de Acueducto</label>
+        <select aria-label="Default select example" formControlName="aqueductServiceProvider" cSelect>
+          <option *ngFor="let company of listCompany" [value]="company.nit">{{company.name}}</option>
+        </select>
+      </c-col>
+      <!-- SERVICIO ALCANTARILLADO -->
+      <c-col md="4">
+        <label cLabel for="validationCustom01">Cuenta con Alcantarillado?</label>
+        <select aria-label="Default select example" formControlName="sewerageService" cSelect (change)="changeOpcionAlcan($event.target)">
+          <option value="Si">Si</option>
+          <option value="No">No</option>
+        </select>
+      </c-col>
+      <c-col md="4" *ngIf="flatOpcionAlcan">
+        <label cLabel for="validationCustom01" *ngIf="flatOpcionAlcan"># NUIS Alcantarillado</label>
+        <input formControlName="sewerageMeter" cFormControl id="validationCustom01" required type="text" />
+        <c-form-feedback [valid]="false">Por favor ingresar informacion.</c-form-feedback>
+      </c-col>
+      <c-col md="4" *ngIf="!flatOpcionAlcan">
+        <label cLabel for="validationCustom01">Solución Alcantarillado</label>
+        <select aria-label="Default select example" formControlName="sewerageMeter" cSelect>
+          <option *ngFor="let opcionAlcan of listOptionAlcan" [value]="opcionAlcan.code">{{opcionAlcan.name}}</option>
+        </select>
+        <c-form-feedback [valid]="false">Por favor ingresar informacion.</c-form-feedback>
+      </c-col>
+      <c-col md="4">
+        <label cLabel for="validationCustom01">Proveedor de Alcantarillado</label>
+        <select aria-label="Default select example" formControlName="sewerageServiceProvider" cSelect>
+          <option *ngFor="let company of listCompany" [value]="company.nit">{{company.name}}</option>
+        </select>
+      </c-col>
+      <!-- SERVICIO GAS -->
+      <c-col md="4">
+        <label cLabel for="validationCustom01">Cuenta con Gas?</label>
+        <select aria-label="Default select example" formControlName="gasService" (change)="changeOpcionGas($event.target)" cSelect>
+          <option value="Si">Si</option>
+          <option value="No">No</option>
+        </select>
+      </c-col>
+      <c-col md="4" *ngIf="flatOpcionGas">
+        <label cLabel># NUIS Gas</label>
+        <input formControlName="gasMeter" cFormControl required id="validationCustom01" type="text" />
+        <c-form-feedback [valid]="false">Por favor ingresar informacion.</c-form-feedback>
+      </c-col>
+      <c-col md="4" *ngIf="!flatOpcionGas">
+        <label cLabel for="validationCustom01">Solución Gas</label>
+        <select aria-label="Default select example" formControlName="gasMeter" cSelect>
+          <option *ngFor="let opcionGas of listOptionGas" [value]="opcionGas.code">{{opcionGas.name}}</option>
+        </select>
+        <c-form-feedback [valid]="false">Por favor ingresar informacion.</c-form-feedback>
+      </c-col>
+      <c-col md="4">
+        <label cLabel for="validationCustom01">Proveedor de Gas</label>
+        <select aria-label="Default select example" formControlName="gasServiceProvider" cSelect>
+          <option *ngFor="let company of listCompany" [value]="company.nit">{{company.name}}</option>
+        </select>
+      </c-col>
+      <!-- SERVICIO ASEO -->
+      <c-col md="4">
+        <label cLabel for="validationCustom01">Cuenta con Servicio de Aseo?</label>
+        <select aria-label="Default select example" formControlName="groomingService" cSelect (change)="changeOpcionAseo($event.target)">
+          <option value="Si">Si</option>
+          <option value="No">No</option>
+        </select>
+      </c-col>
+      <c-col md="4" *ngIf="flatOpcionAseo">
+        <label cLabel for="validationCustom01"># NUIS Aseo</label>
+        <input formControlName="groomingMeter" cFormControl id="validationCustom01" required type="text" />
+        <c-form-feedback [valid]="false">Por favor ingresar informacion.</c-form-feedback>
+      </c-col>
+      <c-col md="4" *ngIf="!flatOpcionAseo">
+        <label cLabel for="validationCustom01">Solución Servicio Aseo</label>
+        <select aria-label="Default select example" formControlName="groomingMeter" cSelect>
+          <option *ngFor="let opcionAseo of listOptionAseo" [value]="opcionAseo.code">{{opcionAseo.name}}</option>
+        </select>
+        <c-form-feedback [valid]="false">Por favor ingresar informacion.</c-form-feedback>
+      </c-col>
+      <c-col md="4">
+        <label cLabel for="validationCustom01">Proveedor de Servicio de Aseo</label>
+        <select aria-label="Default select example" formControlName="groomingServiceProvider" cSelect>
+          <option *ngFor="let company of listCompany" [value]="company.nit">{{company.name}}</option>
+        </select>
+      </c-col>
+    </form>
+  </c-modal-body>
+  <c-modal-footer>
+    <button cButton color="secondary" (click)="closeModal()">Cancelar</button>
+    <button cButton color="primary" (click)="saveInfoSui()">Guardar</button>
+  </c-modal-footer>
+</c-modal>

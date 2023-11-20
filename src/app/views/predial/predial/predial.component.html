@@ -1,0 +1,183 @@
+<div *ngIf="isloading" class="fade show" style="text-align: center; padding-top: calc(100vh / 2); height: 100vh">
+  <i class="spinner-grow spinner-grow-sm"></i>
+  <span class="m-1">Loading...</span>
+</div>
+<c-row>
+  <c-col xs="12">
+    <c-card class="mb-4">
+      <c-card-header>
+        <strong>PREDIAL - CATASTRO</strong>
+      </c-card-header>
+      <c-card-body>
+        <form #customStylesForm="ngForm" [formGroup]="formPredial" (ngSubmit)="onSubmit()" [validated]="customStylesValidated" cForm
+          class="row g-3 needs-validation">
+          <c-col md="4">
+            <label cLabel for="validationCustom01">Código Departamento</label>
+            <input formControlName="cod_dpt" cFormControl id="validationCustom01" required type="text" />
+            <c-form-feedback [valid]="false">Por favor ingresar informacion.</c-form-feedback>
+          </c-col>
+          <c-col md="4">
+            <label cLabel for="validationCustom01">Código Municipio</label>
+            <input formControlName="cod_mcp" cFormControl id="validationCustom01" required type="text" />
+            <c-form-feedback [valid]="false">Por favor ingresar informacion.</c-form-feedback>
+          </c-col>
+          <c-col md="4">
+            <label cLabel for="validationCustom01">Predial Utilizado</label>
+            <input formControlName="predial_utilizado" cFormControl id="validationCustom01" required type="text" />
+            <c-form-feedback [valid]="false">Por favor ingresar informacion.</c-form-feedback>
+          </c-col>
+          <c-col md="6">
+            <label cLabel for="validationCustom02">NPN Predial Catastro</label>
+            <input formControlName="npn_pred_cat" cFormControl id="validationCustom02" required type="text"/>
+            <c-form-feedback [valid]="false">Por favor ingresar informacion.</c-form-feedback>
+          </c-col>
+          <c-col md="6">
+            <label cLabel for="validationCustom02">Predial Homologado</label>
+            <input formControlName="cod_pred_homologado" cFormControl id="validationCustom02" required type="text"/>
+            <c-form-feedback [valid]="false">Por favor ingresar informacion.</c-form-feedback>
+          </c-col>
+          <c-col md="12">
+            <label cLabel for="validationCustom03">Dirección</label>
+            <input formControlName="direccion_cat" cFormControl id="validationCustom03" required type="text" />
+            <c-form-feedback [valid]="false">Por favor ingresar informacion.</c-form-feedback>
+          </c-col>
+          <c-col md="3">
+            <label cLabel for="validationCustom02">Código Barrio</label>
+            <input formControlName="barrio" cFormControl id="validationCustom02" required type="text"/>
+            <c-form-feedback [valid]="false">Por favor ingresar informacion.</c-form-feedback>
+          </c-col>
+          <c-col md="3">
+            <label cLabel for="validationCustom02">Manzana</label>
+            <input formControlName="manzana" cFormControl id="validationCustom02" required type="text"/>
+            <c-form-feedback [valid]="false">Por favor ingresar informacion.</c-form-feedback>
+          </c-col>
+          <c-col md="3">
+            <label cLabel for="validationCustom02">Predio</label>
+            <input formControlName="predio" cFormControl id="validationCustom02" required type="text"/>
+            <c-form-feedback [valid]="false">Por favor ingresar informacion.</c-form-feedback>
+          </c-col>
+          <c-col md="3">
+            <label cLabel for="validationCustom01">Zona</label>
+            <select aria-label="Default select example" formControlName="zona" required cSelect>
+              <option>Seleccionar Zona</option>
+              <option value="urbano">Urbano</option>
+              <option value="rural">Rural</option>
+            </select>
+            <c-form-feedback [valid]="false">Por favor ingresar informacion.</c-form-feedback>
+          </c-col>
+          <c-col xs="12">
+            <button cButton class="me-1" color="primary" type="submit" *ngIf="!flatEdit">
+              Guardar
+            </button>
+            <button cButton class="me-1" color="primary" type="button" (click)="updatePredial()" *ngIf="flatEdit">
+              Actualizar
+            </button>
+            <button (click)="onReset()" cButton color="danger" type="reset">
+              Cancelar
+            </button>
+          </c-col>
+        </form>
+      </c-card-body>
+    </c-card>
+  </c-col>
+
+  <c-col xs="12">
+    <c-card class="mb-4">
+      <c-card-header>
+        <strong>CARGA MASIVA</strong>
+      </c-card-header>
+      <c-card-body>
+        <c-input-group>
+          <input aria-describedby="inputGroupFileAddon04"
+                 (change)="onFileChange($event)"
+                 aria-label="Upload"
+                 [(ngModel)]="upload"
+                 cFormControl
+                 id="inputGroupFile04"
+                 type="file">
+          <button cButton
+                  color="secondary"
+                  id="inputGroupFileAddon04"
+                  type="button"
+                  (click)="tableDataExcel()"
+                  variant="outline">
+            Cargar
+          </button>
+        </c-input-group>
+      </c-card-body>
+    </c-card>
+  </c-col>
+
+  <c-col xs="12">
+    <c-card class="mb-4">
+      <c-card-header ngPreserveWhitespaces>
+        <strong>LISTA PREDIALES</strong>
+      </c-card-header>
+      <c-card-body>
+        <form>
+          <div class="mb-3 row">
+            <label for="table-filtering-search" class="col-xs-3 col-sm-auto col-form-label">Busqueda por Predio:</label>
+            <div class="col-xs-3 col-sm-auto">
+              <input id="table-filtering-search" class="form-control" type="text" name="filterPredial" [(ngModel)]="filterPredial" />
+            </div>
+          </div>
+        </form>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th> NPN Predial </th>
+                <th> Predial Homologado </th>
+                <th> Barrio </th>
+                <th> Manzana </th>
+                <th> Predio </th>
+                <th> Opciones </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let predial of listPredial | filter: filterPredial | paginate: { itemsPerPage: 5, currentPage: page }">
+                <td> {{predial.npn_pred_cat}} </td>
+                <td>{{predial.cod_pred_homologado}}</td>
+                <td>{{predial.barrio}}</td>
+                <td>{{predial.manzana}}</td>
+                <td>{{predial.predio}}</td>
+                <td>
+                  <div>
+                    <button cButton class="me-1" color="success" (click)="editPredial(predial)">
+                      Editar
+                    </button>
+                    <button cButton class="me-1" color="primary" (click)="openModal(predial)">
+                      Info
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </c-card-body>
+      <c-card-footer class="text-medium-emphasis text-center" *ngIf="listPredial.length">
+        <pagination-controls [responsive]="true" (pageChange)="page = $event" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
+      </c-card-footer>
+    </c-card>
+  </c-col>
+</c-row>
+
+<c-modal id="liveDemoModal" [visible]="isModal" (visibleChange)="handleLiveDemoChange($event)">
+  <c-modal-header>
+    <h5 cModalTitle>Información Predio</h5>
+    <button (click)="closeModal()" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <p>Código Departamento: {{dataPredial?.cod_dpt}}</p>
+    <p>Código Municipio: {{dataPredial?.cod_mcp}}</p>
+    <p>Predial Utilizado: {{dataPredial?.predial_utilizado}}</p>
+    <p>NPN Predial Catastro: {{dataPredial?.npn_pred_catio}}</p>
+    <p>Predial Homologado: {{dataPredial?.cod_pred_homologado}}</p>
+    <p>Dirección: {{dataPredial?.direccion_cat}}</p>
+    <p>Código Barrio: {{dataPredial?.barrio}}</p>
+    <p>Manzana: {{dataPredial?.manzana}}</p>
+    <p>Predio: {{dataPredial?.predio}}</p>
+    <p>Zona: {{dataPredial?.zona}}</p>
+  </c-modal-body>
+</c-modal>

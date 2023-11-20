@@ -1,0 +1,134 @@
+<c-row>
+  <c-col xs="12">
+    <c-card class="mb-4">
+      <c-card-header>
+        <strong>REGISTRO SUI</strong>
+      </c-card-header>
+      <c-card-body>
+        <form #customStylesForm="ngForm" [formGroup]="formSearchPredials" (ngSubmit)="searchPredials()" cForm class="row g-3 needs-validation">
+          <c-col md="4">
+            <label cLabel for="validationCustom01">Municipio</label>
+            <select aria-label="Default select example" formControlName="cod_mcp" cSelect (change)="searchBarrio($event.target)">
+              <option>Seleccionar Municipio</option>
+              <option *ngFor="let municipio of listMunicipio" [value]="municipio.cod_mcp">{{municipio.name_mcp}}</option>
+            </select>
+          </c-col>
+          <c-col md="4" *ngIf="rolUser === 'Administrador'">
+            <label cLabel for="validationCustom01">Barrio</label>
+            <select aria-label="Default select example" formControlName="cod_bar" cSelect>
+              <option>Seleccionar Barrio</option>
+              <option *ngFor="let barrio of listBarrio" [value]="barrio.cod_bar">{{barrio.name_bar}}</option>
+            </select>
+          </c-col>
+          <c-col md="4" *ngIf="rolUser !== 'Administrador'">
+            <label cLabel for="validationCustom01">Barrio</label>
+            <select aria-label="Default select example" formControlName="cod_bar" (change)="searchAsignation($event.target)" cSelect>
+              <option>Seleccionar Barrio</option>
+              <option *ngFor="let barrio of listBarrio" [value]="barrio.cod_bar">{{barrio.name_bar}}</option>
+            </select>
+          </c-col>
+          <c-col md="2" *ngIf="rolUser !== 'Administrador'">
+            <label cLabel for="validationCustom01">Manzana</label>
+            <select aria-label="Default select example" formControlName="manzana" cSelect>
+              <option>Seleccionar Manzana</option>
+              <option *ngFor="let manzana of listManzana" [value]="manzana.manzana">{{manzana.manzana}}</option>
+            </select>
+          </c-col>
+          <c-col md="2" *ngIf="rolUser === 'Administrador'">
+            <label cLabel for="validationCustom01">Manzana</label>
+            <input formControlName="manzana" cFormControl id="validationCustom01" type="text" />
+          </c-col>
+          <c-col md="2">
+            <button cButton class="me-1" color="primary" type="submit">
+              Buscar
+            </button>
+          </c-col>
+        </form>
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>
+
+<c-col xs="12">
+  <c-card class="mb-4">
+    <c-card-header ngPreserveWhitespaces>
+      <strong>LISTA PREDIALES</strong>
+    </c-card-header>
+    <c-card-body>
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th> NPN Predial </th>
+              <th> Predial Homologado </th>
+              <th> Barrio </th>
+              <th> Manzana </th>
+              <th> Predio </th>
+              <th> Opciones </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let predial of (listPredials$ | async) | paginate: { itemsPerPage: 10, currentPage: page }">
+              <td> {{predial.npn_pred_cat}} </td>
+              <td>{{predial.cod_pred_homologado}}</td>
+              <td>{{predial.barrio}}</td>
+              <td>{{predial.manzana}}</td>
+              <td>{{predial.predio}}</td>
+              <td>
+                <div>
+                  <button cButton class="me-1" color="primary" (click)="addRegister(predial)">
+                    <svg [cIcon]="icons.cilPlaylistAdd" width="25" title="Shield Icon"></svg>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </c-card-body>
+    <c-card-footer class="text-medium-emphasis text-center" >
+      <pagination-controls [responsive]="true" (pageChange)="page = $event" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
+    </c-card-footer>
+  </c-card>
+</c-col>
+
+<!-- <c-col xs="12">
+  <c-card class="mb-4">
+    <c-card-header ngPreserveWhitespaces>
+      <strong>REGISTRO SUI INGRESADOS</strong>
+    </c-card-header>
+    <c-card-body>
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th> NPN Predial </th>
+              <th> Barrio </th>
+              <th> Dirección </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let register of listRegisterSui | paginate: { itemsPerPage: 10, currentPage: page }">
+              <td> {{register.predial}} </td>
+              <td> {{register.codeBarrio}} </td>
+              <td> {{register.address}} </td>
+            </tr>
+          </tbody>
+          <tfoot>
+              <pagination-controls [responsive]="true" (pageChange)="page = $event" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
+          </tfoot>
+        </table>
+      </div>
+    </c-card-body>
+  </c-card>
+</c-col> -->
+
+
+<div *ngIf="loading$ | async" class="fade show" style="text-align: center; padding-top: calc(100vh / 2); height: 100vh">
+  <i class="spinner-grow spinner-grow-sm"></i>
+  <span class="m-1">Loading...</span>
+</div>
+
+
+
+

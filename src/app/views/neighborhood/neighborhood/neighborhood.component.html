@@ -1,0 +1,93 @@
+
+<div *ngIf="isloading" class="fade show" style="text-align: center; padding-top: calc(100vh / 2); height: 100vh">
+  <i class="spinner-grow spinner-grow-sm"></i>
+  <span class="m-1">Loading...</span>
+</div>
+
+<c-row>
+  <c-col xs="12">
+    <c-card class="mb-4">
+      <c-card-header>
+        <strong>BARRIO</strong>
+      </c-card-header>
+      <c-card-body>
+        <form #customStylesForm="ngForm" [formGroup]="formNeighborhood" (ngSubmit)="onSubmit()" [validated]="customStylesValidated" cForm
+          class="row g-3 needs-validation">
+          <c-col md="4">
+            <label cLabel for="validationCustom01">Municipio</label>
+            <select aria-label="Default select example" formControlName="cod_mcp" cSelect>
+              <option>Seleccionar Municipio</option>
+              <option *ngFor="let municipio of listMunicipio" [value]="municipio.cod_mcp">{{municipio.name_mcp}}</option>
+            </select>
+          </c-col>
+          <c-col md="4">
+            <label cLabel for="validationCustom01">codigo</label>
+            <input formControlName="cod_bar" cFormControl id="validationCustom01" required type="text" />
+            <c-form-feedback [valid]="false">Por favor ingresar informacion.</c-form-feedback>
+          </c-col>
+          <c-col md="4">
+            <label cLabel for="validationCustom01">Nombre del barrio</label>
+            <input formControlName="name_bar" cFormControl id="validationCustom01" required type="text" />
+            <c-form-feedback [valid]="false">Por favor ingresar informacion.</c-form-feedback>
+          </c-col>
+          <c-col xs="12">
+            <button cButton class="me-1" color="primary" type="submit" *ngIf="!flatEdit">
+              Guardar
+            </button>
+            <button cButton class="me-1" color="primary" type="button" (click)="updateNeighborhood()" *ngIf="flatEdit">
+              Actualizar
+            </button>
+            <button (click)="onReset()" cButton color="danger" type="reset">
+              Cancelar
+            </button>
+          </c-col>
+        </form>
+      </c-card-body>
+    </c-card>
+  </c-col>
+
+  <c-col xs="12">
+    <c-card class="mb-4">
+      <c-card-header ngPreserveWhitespaces>
+        <strong>LISTA EMPRESAS</strong>
+      </c-card-header>
+      <c-card-body>
+        <form>
+          <div class="mb-3 row">
+            <label for="table-filtering-search" class="col-xs-3 col-sm-auto col-form-label">Busqueda por nombre del barrio:</label>
+            <div class="col-xs-3 col-sm-auto">
+              <input id="table-filtering-search" class="form-control" type="text" name="filterNeighborhood" [(ngModel)]="filterNeighborhood" />
+            </div>
+          </div>
+        </form>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th> Códgi Municipio </th>
+                <th> Código Barrio </th>
+                <th> Nombre Barrio </th>
+                <th class="text-center"> Editar </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let neighborhood of listNeighborhood | filterNeighborhood: filterNeighborhood | paginate: { itemsPerPage: 5, currentPage: page }">
+                <td> {{neighborhood.cod_mcp}} </td>
+                <td>{{neighborhood.cod_bar}}</td>
+                <td>{{neighborhood.name_bar}}</td>
+                <td class="text-center">
+                  <button cButton class="me-1" color="success" (click)="editNeighborhood(neighborhood)">
+                    <svg [cIcon]="icons.cilPencil" width="20" title="Shield Icon"></svg>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </c-card-body>
+      <c-card-footer class="text-medium-emphasis text-center">
+        <pagination-controls [responsive]="true" (pageChange)="page = $event" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
+      </c-card-footer>
+    </c-card>
+  </c-col>
+</c-row>

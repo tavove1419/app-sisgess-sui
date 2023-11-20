@@ -1,0 +1,107 @@
+<div *ngIf="isloading" class="fade show" style="text-align: center; padding-top: calc(100vh / 2); height: 100vh">
+  <i class="spinner-grow spinner-grow-sm"></i>
+  <span class="m-1">Loading...</span>
+</div>
+
+<c-row>
+  <c-col xs="12">
+    <c-card class="mb-4">
+      <c-card-header>
+        <strong>EMPRESAS PRESTADORAS DE SERVICIOS</strong>
+      </c-card-header>
+      <c-card-body>
+        <form #customStylesForm="ngForm" [formGroup]="formCompany" (ngSubmit)="onSubmit()" [validated]="customStylesValidated" cForm
+          class="row g-3 needs-validation">
+          <c-col md="4">
+            <label cLabel for="validationCustom01">Nit</label>
+            <input formControlName="nit" cFormControl id="validationCustom01" required type="text" />
+            <c-form-feedback [valid]="false">Por favor ingresar informacion.</c-form-feedback>
+          </c-col>
+          <c-col md="4">
+            <label cLabel for="validationCustom01">DV</label>
+            <input formControlName="dv" cFormControl id="validationCustom01" required type="text" />
+            <c-form-feedback [valid]="false">Por favor ingresar informacion.</c-form-feedback>
+          </c-col>
+          <c-col md="4">
+            <label cLabel for="validationCustom01">Nombre de la empresa</label>
+            <input formControlName="name" cFormControl id="validationCustom01" required type="text" />
+            <c-form-feedback [valid]="false">Por favor ingresar informacion.</c-form-feedback>
+          </c-col>
+          <c-col md="6">
+            <label cLabel for="validationCustom02">Dirección</label>
+            <input formControlName="addres" cFormControl id="validationCustom02" required type="text"/>
+            <c-form-feedback [valid]="false">Por favor ingresar informacion.</c-form-feedback>
+          </c-col>
+          <c-col md="3">
+            <label cLabel for="validationCustom02">Teléfono</label>
+            <input formControlName="phone" cFormControl id="validationCustom02" required type="text"/>
+            <c-form-feedback [valid]="false">Por favor ingresar informacion.</c-form-feedback>
+          </c-col>
+          <c-col md="3">
+            <label cLabel for="validationCustom03">Email</label>
+            <input formControlName="email" cFormControl id="validationCustom03" required type="email" />
+            <c-form-feedback [valid]="false">Por favor ingresar informacion.</c-form-feedback>
+          </c-col>
+          <c-col xs="12">
+            <button cButton class="me-1" color="primary" type="submit" *ngIf="!flatEdit">
+              Guardar
+            </button>
+            <button cButton class="me-1" color="primary" type="button" (click)="updateCompany()" *ngIf="flatEdit">
+              Actualizar
+            </button>
+            <button (click)="onReset()" cButton color="danger" type="reset">
+              Cancelar
+            </button>
+          </c-col>
+        </form>
+      </c-card-body>
+    </c-card>
+  </c-col>
+
+  <c-col xs="12">
+    <c-card class="mb-4">
+      <c-card-header ngPreserveWhitespaces>
+        <strong>LISTA EMPRESAS</strong>
+      </c-card-header>
+      <c-card-body>
+        <form>
+          <!-- <div class="mb-3 row">
+            <label for="table-filtering-search" class="col-xs-3 col-sm-auto col-form-label">Busqueda por Predio:</label>
+            <div class="col-xs-3 col-sm-auto">
+              <input id="table-filtering-search" class="form-control" type="text" name="filterPredial" [(ngModel)]="filterPredial" />
+            </div>
+          </div> -->
+        </form>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th> Nit </th>
+                <th> Empresa </th>
+                <th> Email </th>
+                <th> Telefono </th>
+                <th class="text-center"> Editar </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let company of listCompany | paginate: { itemsPerPage: 5, currentPage: page }">
+                <td> {{company.nit}} </td>
+                <td>{{company.name}}</td>
+                <td>{{company.email}}</td>
+                <td>{{company.phone}}</td>
+                <td class="text-center">
+                  <button cButton class="me-1" color="success" (click)="editCompany(company)">
+                    <svg [cIcon]="icons.cilPencil" width="20" title="Shield Icon"></svg>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </c-card-body>
+      <c-card-footer class="text-medium-emphasis text-center">
+        <pagination-controls [responsive]="true" (pageChange)="page = $event" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
+      </c-card-footer>
+    </c-card>
+  </c-col>
+</c-row>

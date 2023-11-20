@@ -1,0 +1,77 @@
+<div *ngIf="isloading" class="fade show" style="text-align: center; padding-top: calc(100vh / 2); height: 100vh">
+  <i class="spinner-grow spinner-grow-sm"></i>
+  <span class="m-1">Loading...</span>
+</div>
+
+<c-col xs="12">
+  <c-card class="mb-4">
+    <c-card-header ngPreserveWhitespaces>
+      <strong>LISTA PREDIALES</strong>
+    </c-card-header>
+    <c-card-body>
+      <form>
+        <div class="mb-3 row">
+          <label for="table-filtering-search" class="col-xs-3 col-sm-auto col-form-label">Busqueda por Número Predial:</label>
+          <div class="col-xs-3 col-sm-auto">
+            <input id="table-filtering-search" class="form-control" type="text" name="filterInfoSui" [(ngModel)]="filterInfoSui" />
+          </div>
+        </div>
+      </form>
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>NPN Predial</th>
+              <th>Codigo Barrio</th>
+              <th># Piso</th>
+              <th class="text-center">Información</th>
+              <th class="text-center">Eliminar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let information of listInformation | filterInfoSui: filterInfoSui  | paginate: { itemsPerPage: 10, currentPage: page }">
+              <td>{{information.id}}</td>
+              <td>{{information.predial}}</td>
+              <td>{{information.codeBarrio}}</td>
+              <td>{{information.number_piso}}</td>
+              <td class="text-center">
+                <button cButton class="me-1" color="info" (click)="showInfo(information)">
+                  <svg [cIcon]="icons.cilBook" width="20" title="Shield Icon"></svg>
+                </button>
+              </td>
+              <td class="text-center">
+                <button cButton class="me-1" color="danger" (click)="confirmDelete(information)">
+                  <svg [cIcon]="icons.cilTrash" width="20" title="Shield Icon"></svg>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+
+        </table>
+      </div>
+    </c-card-body>
+    <c-card-footer class="text-medium-emphasis text-center" >
+      <pagination-controls [responsive]="true" (pageChange)="page = $event" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
+    </c-card-footer>
+  </c-card>
+</c-col>
+
+<c-modal id="liveDemoModal" [visible]="isModal" (visibleChange)="handleLiveDemoChange($event)">
+  <c-modal-header>
+    <h5 cModalTitle>Información Predio</h5>
+    <button (click)="closeModal()" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <p>Item a eliminar: {{dataSui?.id}}</p>
+    <p>NPN Predial Catastro: {{dataSui?.predial}}</p>
+    <p>Barrio: {{dataSui?.codeBarrio}}</p>
+    <p>Dirección: {{dataSui?.address}}</p>
+    <p>Piso número: {{dataSui?.number_piso}}</p>
+    <p>Contador de energía: {{dataSui?.energyMeter}}</p>
+    <p>Contador de agua: {{dataSui?.aqueductMeter}}</p>
+    <p>Servicio de alcantarillado: {{dataSui?.sewerageMeter}}</p>
+    <p>Contador de gas: {{dataSui?.gasMeter}}</p>
+    <p>Servicio de aseo: {{dataSui?.groomingMeter}}</p>
+  </c-modal-body>
+</c-modal>

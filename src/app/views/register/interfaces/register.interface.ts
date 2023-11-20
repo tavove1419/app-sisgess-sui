@@ -1,0 +1,22 @@
+export interface RegisterSuiInterface {
+  predial: string,
+  address: string,
+  energyService: boolean,
+  energyMeter?: string,
+  energyServiceProvider: string,
+  aqueductService: boolean,
+  aqueductMeter?: string,
+  aqueductServiceProvider: string,
+  sewerageService: boolean,
+  sewerageMeter?: string,
+  sewerageServiceProvider: string,
+  gasService: boolean,
+  gasMeter?: string,
+  gasServiceProvider: string,
+  groomingService: boolean,
+  groomingMeter?: string,
+  groomingServiceProvider: string,
+  codeTypology: string,
+  uuid: string,
+  codeBarrio: string
+}

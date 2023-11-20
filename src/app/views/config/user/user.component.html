@@ -1,0 +1,108 @@
+<div *ngIf="isloading" class="fade show" style="text-align: center; padding-top: calc(100vh / 2); height: 100vh">
+  <i class="spinner-grow spinner-grow-sm"></i>
+  <span class="m-1">Loading...</span>
+</div>
+
+<c-row>
+  <c-col xs="12">
+    <c-card class="mb-4">
+      <c-card-header>
+        <strong>USUARIOS</strong>
+      </c-card-header>
+      <c-card-body>
+        <form #customStylesForm="ngForm" [formGroup]="formUser" (ngSubmit)="onSubmit()" [validated]="customStylesValidated" cForm
+          class="row g-3 needs-validation">
+          <c-col md="4">
+            <label cLabel for="validationCustom01">Nombres</label>
+            <input formControlName="name" cFormControl id="validationCustom01" required type="text" />
+            <c-form-feedback [valid]="false">Por favor ingresar informacion.</c-form-feedback>
+          </c-col>
+          <c-col md="4">
+            <label cLabel for="validationCustom01">Apellidos</label>
+            <input formControlName="lastname" cFormControl id="validationCustom01" required type="text" />
+            <c-form-feedback [valid]="false">Por favor ingresar informacion.</c-form-feedback>
+          </c-col>
+          <c-col md="4">
+            <label cLabel for="validationCustom01">Correo Electrónico</label>
+            <input formControlName="email" cFormControl id="validationCustom01" required type="email" />
+            <c-form-feedback [valid]="false">Por favor ingresar informacion.</c-form-feedback>
+          </c-col>
+          <c-col md="6">
+            <label cLabel for="validationCustom02">Teléfono</label>
+            <input formControlName="phone" cFormControl id="validationCustom02" required type="text"/>
+            <c-form-feedback [valid]="false">Por favor ingresar informacion.</c-form-feedback>
+          </c-col>
+          <c-col md="6">
+            <label cLabel for="validationCustom02">Rol Asignado</label>
+            <select aria-label="Default select example" formControlName="rol" cSelect>
+              <option value="Administrador">Administrador</option>
+              <option value="Coordinador">Coordinador</option>
+              <option value="Encuestador">Encuestador</option>
+            </select>
+            <c-form-feedback [valid]="false">Por favor ingresar informacion.</c-form-feedback>
+          </c-col>
+          <c-col xs="12">
+            <button cButton class="me-1" color="primary" type="submit" *ngIf="!flatEdit">
+              Guardar
+            </button>
+            <button cButton class="me-1" color="primary" type="button" (click)="updateUser()" *ngIf="flatEdit">
+              Actualizar
+            </button>
+            <button (click)="onReset()" cButton color="danger" type="reset">
+              Cancelar
+            </button>
+          </c-col>
+        </form>
+      </c-card-body>
+    </c-card>
+  </c-col>
+
+  <c-col xs="12">
+    <c-card class="mb-4">
+      <c-card-header ngPreserveWhitespaces>
+        <strong>LISTA USUARIOS</strong>
+      </c-card-header>
+      <c-card-body>
+        <form>
+          <div class="mb-3 row">
+            <label for="table-filtering-search" class="col-xs-3 col-sm-auto col-form-label">Busqueda por Nombre:</label>
+            <div class="col-xs-3 col-sm-auto">
+              <input id="table-filtering-search" class="form-control" type="text" name="filterUser" [(ngModel)]="filterUser" />
+            </div>
+          </div>
+        </form>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th> Nombres</th>
+                <th> Apellidos </th>
+                <th> Usuario </th>
+                <th> Rol </th>
+                <th> Opciones </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let user of listUser | filterUser: filterUser | paginate: { itemsPerPage: 5, currentPage: page }">
+                <td> {{user.name}} </td>
+                <td>{{user.lastname}}</td>
+                <td>{{user.usuario}}</td>
+                <td>{{user.rol}}</td>
+                <td>
+                  <div>
+                    <button cButton class="me-1" color="success" (click)="editUser(user)">
+                      Editar
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+                <pagination-controls [responsive]="true" (pageChange)="page = $event" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
+            </tfoot>
+          </table>
+        </div>
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>

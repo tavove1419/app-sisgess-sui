@@ -1,0 +1,8 @@
+<div class="loading" *ngIf="isloading$ | async">
+  <div class="middle">
+      <div class="content">
+        <div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+          <p *ngIf="message" [innerHtml]="message"></p>
+      </div>
+  </div>
+</div>

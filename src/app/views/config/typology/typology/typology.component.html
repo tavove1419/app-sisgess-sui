@@ -1,0 +1,85 @@
+
+<div *ngIf="isloading" class="fade show" style="text-align: center; padding-top: calc(100vh / 2); height: 100vh">
+  <i class="spinner-grow spinner-grow-sm"></i>
+  <span class="m-1">Loading...</span>
+</div>
+
+<c-row>
+  <c-col xs="12">
+    <c-card class="mb-4">
+      <c-card-header>
+        <strong>BARRIO</strong>
+      </c-card-header>
+      <c-card-body>
+        <form #customStylesForm="ngForm" [formGroup]="formTypology" (ngSubmit)="onSubmit()" [validated]="customStylesValidated" cForm
+          class="row g-3 needs-validation">
+          <c-col md="6">
+            <label cLabel for="validationCustom01">Código</label>
+            <input formControlName="code" cFormControl id="validationCustom01" required type="text" />
+            <c-form-feedback [valid]="false">Por favor ingresar informacion.</c-form-feedback>
+          </c-col>
+          <c-col md="6">
+            <label cLabel for="validationCustom01">Nombre Tipologia</label>
+            <input formControlName="name" cFormControl id="validationCustom01" required type="text" />
+            <c-form-feedback [valid]="false">Por favor ingresar informacion.</c-form-feedback>
+          </c-col>
+          <c-col xs="12">
+            <button cButton class="me-1" color="primary" type="submit" *ngIf="!flatEdit">
+              Guardar
+            </button>
+            <button cButton class="me-1" color="primary" type="button" (click)="updateTypology()" *ngIf="flatEdit">
+              Actualizar
+            </button>
+            <button (click)="onReset()" cButton color="danger" type="reset">
+              Cancelar
+            </button>
+          </c-col>
+        </form>
+      </c-card-body>
+    </c-card>
+  </c-col>
+
+  <c-col xs="12">
+    <c-card class="mb-4">
+      <c-card-header ngPreserveWhitespaces>
+        <strong>LISTA TIPOLOGIAS</strong>
+      </c-card-header>
+      <c-card-body>
+        <!-- <form>
+          <div class="mb-3 row">
+            <label for="table-filtering-search" class="col-xs-3 col-sm-auto col-form-label">Busqueda por nombre del barrio:</label>
+            <div class="col-xs-3 col-sm-auto">
+              <input id="table-filtering-search" class="form-control" type="text" name="filterNeighborhood" [(ngModel)]="filterNeighborhood" />
+            </div>
+          </div>
+        </form> -->
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th> Código </th>
+                <th> Tipología</th>
+                <th class="text-center"> Editar </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let typology of listTypology | paginate: { itemsPerPage: 5, currentPage: page }">
+                <td> {{typology.code}} </td>
+                <td>{{typology.name}}</td>
+                <td class="text-center">
+                  <button cButton class="me-1" color="success" (click)="editTypology(typology)">
+                    <svg [cIcon]="icons.cilPencil" width="20" title="Shield Icon"></svg>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </c-card-body>
+      <c-card-footer class="text-medium-emphasis text-center">
+        <pagination-controls [responsive]="true" (pageChange)="page = $event" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
+      </c-card-footer>
+    </c-card>
+  </c-col>
+</c-row>
+

@@ -1,0 +1,96 @@
+<div *ngIf="isloading" class="fade show" style="text-align: center; padding-top: calc(100vh / 2); height: 100vh">
+  <i class="spinner-grow spinner-grow-sm"></i>
+  <span class="m-1">Loading...</span>
+</div>
+<c-row>
+  <c-col xs="12">
+    <c-card class="mb-4">
+      <c-card-header>
+        <strong>ASIGNACIONES</strong>
+      </c-card-header>
+      <c-card-body>
+        <form #customStylesForm="ngForm" [formGroup]="formSearchPredials" (ngSubmit)="searchPredials()" cForm class="row g-3 needs-validation">
+          <c-col md="5">
+            <label cLabel for="validationCustom01">Municipio</label>
+            <select aria-label="Default select example" formControlName="cod_mcp" cSelect (change)="searchBarrio($event.target)">
+              <option>Seleccionar Municipio</option>
+              <option *ngFor="let municipio of listMunicipio" [value]="municipio.cod_mcp">{{municipio.name_mcp}}</option>
+            </select>
+          </c-col>
+          <c-col md="5">
+            <label cLabel for="validationCustom01">Barrio</label>
+            <select aria-label="Default select example" formControlName="cod_bar" cSelect>
+              <option>Seleccionar Barrio</option>
+              <option *ngFor="let barrio of listBarrio" [value]="barrio.cod_bar">{{barrio.name_bar}}</option>
+            </select>
+          </c-col>
+          <c-col md="2" class="btn-search">
+            <button cButton class="me-1" color="primary" type="submit">
+              Buscar
+            </button>
+          </c-col>
+        </form>
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>
+
+<c-col xs="12">
+  <c-card class="mb-4">
+    <c-card-header ngPreserveWhitespaces>
+      <strong>LISTA PREDIALES</strong>
+    </c-card-header>
+    <c-card-header ngPreserveWhitespaces>
+      <form #customStylesForm="ngForm" [formGroup]="formAsignation" cForm class="row g-3 needs-validation">
+        <c-col md="12">
+          <label cLabel for="validationCustom01">Encuestador</label>
+          <select aria-label="Default select example"  formControlName="usuario" cSelect>
+            <option>Seleccionar encuestador</option>
+            <option *ngFor="let user of listUser" [value]="user.id">{{user.name}} {{user.lastname}}</option>
+          </select>
+        </c-col>
+      </form>
+      <c-col md="12" class="mt-2 aling-btn" >
+        <button cButton class="me-1" color="primary" (click)="onAsignation()">
+          Asignar
+        </button>
+      </c-col>
+    </c-card-header>
+    <c-card-body>
+      <div class="table-responsive" *ngIf="listPredial.length">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Código Barrio</th>
+              <th>Barrio</th>
+              <th>Manzana</th>
+              <th>
+                <c-form-check>
+                  <input cFormCheckInput id="checkOne" (click)="addAllManzana($event)" type="checkbox" />
+                </c-form-check>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let predial of listPredial | paginate: { itemsPerPage: 10, currentPage: page }">
+              <td>{{predial.barrio}}</td>
+              <td>{{predial.name_bar}}</td>
+              <td>{{predial.manzana}}</td>
+              <td>
+                <div>
+                  <c-form-check>
+                    <input cFormCheckInput id="checkOne" [checked]="checked" (change)="addManzana(predial, $event)" type="checkbox" />
+                  </c-form-check>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+
+        </table>
+      </div>
+    </c-card-body>
+    <c-card-footer class="text-medium-emphasis text-center" *ngIf="listPredial.length">
+      <pagination-controls [responsive]="true" (pageChange)="page = $event" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
+    </c-card-footer>
+  </c-card>
+</c-col>

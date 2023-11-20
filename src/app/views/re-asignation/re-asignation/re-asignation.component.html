@@ -1,0 +1,84 @@
+<c-row>
+  <c-col xs="12">
+    <c-card class="mb-4">
+      <c-card-header>
+        <strong>RE-ASIGNACIONES</strong>
+      </c-card-header>
+      <c-card-body>
+        <form #customStylesForm="ngForm" [formGroup]="formSearchPredials" (ngSubmit)="searchAsignation()" cForm class="row g-3 needs-validation">
+          <c-col md="5">
+            <label cLabel for="validationCustom01">Municipio</label>
+            <select aria-label="Default select example" formControlName="cod_mcp" cSelect (change)="searchBarrio($event.target)">
+              <option>Seleccionar Municipio</option>
+              <option *ngFor="let municipio of listMunicipio" [value]="municipio.cod_mcp">{{municipio.name_mcp}}</option>
+            </select>
+          </c-col>
+          <c-col md="5">
+            <label cLabel for="validationCustom01">Barrio</label>
+            <select aria-label="Default select example" formControlName="cod_bar" cSelect>
+              <option>Seleccionar Barrio</option>
+              <option *ngFor="let barrio of listBarrio" [value]="barrio.cod_bar">{{barrio.name_bar}}</option>
+            </select>
+          </c-col>
+          <c-col md="2" class="btn-search">
+            <button cButton class="me-1" color="primary" type="submit">
+              Buscar
+            </button>
+          </c-col>
+        </form>
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>
+
+<c-col xs="12" *ngIf="listAsignation.length">
+  <c-card class="mb-4">
+    <c-card-header ngPreserveWhitespaces>
+      <strong>LISTA PREDIALES</strong>
+    </c-card-header>
+    <c-card-header ngPreserveWhitespaces>
+      <form #customStylesForm="ngForm" [formGroup]="formReAsignation" cForm class="row g-3 needs-validation">
+        <c-col md="12">
+          <label cLabel for="validationCustom01">Encuestador</label>
+          <select aria-label="Default select example"  formControlName="usuario" cSelect>
+            <option>Seleccionar encuestador</option>
+            <option *ngFor="let user of listUser" [value]="user.id">{{user.name}} {{user.lastname}}</option>
+          </select>
+        </c-col>
+      </form>
+    </c-card-header>
+    <c-card-body>
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Codigo Dto</th>
+              <th>Barrio</th>
+              <th>Manzana</th>
+              <th>Encuestador</th>
+              <th>Reasignar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let asignation of listAsignation | paginate: { itemsPerPage: 10, currentPage: page }">
+              <td>{{asignation.cod_dpt}}</td>
+              <td>{{asignation.name_barrio}}</td>
+              <td>{{asignation.manzana}}</td>
+              <td>{{asignation.user_name}}</td>
+              <td>
+                <div>
+                  <button cButton class="me-1" color="primary" (click)="confirmAsignation(asignation)">
+                    <svg [cIcon]="icons.cilBrush" width="25" title="Shield Icon"></svg>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </c-card-body>
+    <c-card-footer class="text-medium-emphasis text-center" *ngIf="listAsignation.length">
+      <pagination-controls [responsive]="true" (pageChange)="page = $event" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
+    </c-card-footer>
+  </c-card>
+</c-col>
